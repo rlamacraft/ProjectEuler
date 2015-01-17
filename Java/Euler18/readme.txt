@@ -1,0 +1,1 @@
+This algorithm, navigates the tree from root to leaves, calculating the cumulative minimum for each node. By doing this, it is possible to select the minimum leaf node and from there, navigating back up the tree, selecting the lowest parent node. This method means that the minimum value is calculated after one traversal and the path after a second.
