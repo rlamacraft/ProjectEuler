@@ -1,59 +1,38 @@
+import functools
 import math
-import timeit
-
-__author__ = 'Robert'
 
 
-def proper_divisor(n):
-    ret = [1]
-    sqrt_n = math.sqrt(n)
-    for j in range(2, int(math.ceil(sqrt_n))):
-        if n % j == 0:
-            ret.append(j)
-            ret.append(n/j)
-    if (math.floor(sqrt_n) == sqrt_n) & (n != 1):
-        ret.append(int(sqrt_n))
-    return ret
+# true if a string contains all of the digits 1-9, else false
+def is_pandigital(string, num):
+    if len(string) != (num - 1):
+        return False
+    for i in range(1, num):
+        if str(i) not in string:
+            return False
+    return True
 
 
-def is_abundant(n):
-    return abundants[n]
+# given two ranges x and y, multiples all values in [0, x] by all values in range [0, y]
+# outputs string: "x,y,answer"
+def all_products_in_range(x, y):
+    out = set()
+    for i in range(1, x):
+        for j in range(1, y):
+            calculation_as_string = str(i) + str(j) + str(i * j)
+            if is_pandigital(calculation_as_string, 10):
+                print(calculation_as_string)
+                out.add(i*j)
+    print(out)
+    print(sum(out))
+    return out
 
 
-def calc_abundant(n):
-    if sum(proper_divisor(n)) > n:
-        return True
-    return False
+def each_range():
+    return all_products_in_range(9, 9999) | all_products_in_range(99, 999)
 
 
-def is_sum_of_abundant(n):
-    for i in range(1, (n/2)+1):
-        if (is_abundant(i)) & (is_abundant(n-i)):
-            return True
-    return False
+print(sum(each_range()))
 
+# NOT 20882533307, 10313920261, 13433748175
+# NOT 21417510, 10640695, 10595467, 471532
 
-def all_abundants(n):
-    ret = []
-    for i in range(0, n):
-        if calc_abundant(i):
-            ret.append(True)
-        else:
-            ret.append(False)
-    return ret
-
-
-start = timeit.default_timer()
-MAX_VALUE = 28123
-abundants = all_abundants(MAX_VALUE)
-total = 0
-for eachNum in range(1, MAX_VALUE):
-    if not is_sum_of_abundant(eachNum):
-        total += eachNum
-    print ".",
-    if eachNum % 100 == 0:
-        print "."
-print ""
-print total
-stop = timeit.default_timer()
-print stop - start
